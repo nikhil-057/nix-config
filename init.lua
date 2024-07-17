@@ -358,6 +358,7 @@ local plugins = {
         dependencies = {
             "neovim/nvim-lspconfig",
             "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim",
             "mfussenegger/nvim-dap-python",
         },
         opts = {
