@@ -1,5 +1,6 @@
 ## nvim setup
 
+```
 sudo apt update
 sudo apt install fd-find --yes
 sudo apt install ripgrep --yes
@@ -18,3 +19,4 @@ npm install -g tree-sitter-cli
 
 ./setup.sh
 source ~/.bashrc
+```
