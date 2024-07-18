@@ -389,6 +389,37 @@ local plugins = {
             vim.g.tmux_navigator_save_on_switch = 2
         end,
     },
+
+    -- easily interact with tmux from vim
+    {
+        "preservim/vimux",
+        cmd = {
+            "VimuxPromptCommand",
+            "VimuxRunLastCommand",
+            "VimuxInspectRunner",
+            "VimuxCloseRunner",
+            "VimuxInterruptRunner",
+            "VimuxZoomRunner",
+            "VimuxClearTerminalScreen",
+            "VimuxRunCommand",
+        },
+        keys = {
+            -- reference: https://raw.githubusercontent.com/preservim/vimux/master/doc/vimux.txt
+            { "<leader>vp", "<cmd>VimuxPromptCommand<cr>", mode = "" },
+            { "<leader>vl", "<cmd>VimuxRunLastCommand<cr>", mode = "" },
+            { "<leader>vi", "<cmd>VimuxInspectRunner<cr>", mode = "" },
+            { "<leader>vq", "<cmd>VimuxCloseRunner<cr>", mode = "" },
+            { "<leader>vx", "<cmd>VimuxInterruptRunner<cr>", mode = "" },
+            { "<leader>vz", "<cmd>call VimuxZoomRunner()<cr>", mode = "" },
+            { "<leader>v<C-l>", "<cmd>VimuxClearTerminalScreen<cr>", mode = "" },
+            { "<leader>vs", "\"vy<cmd>call VimuxRunCommand(@v, 0)<cr>", mode = "v" },
+            { "<leader>vs", "vip\"vy<cmd>call VimuxRunCommand(@v, 0)<cr>", mode = "n" },
+        },
+        init = function()
+            vim.g.VimuxHeight = 30
+            vim.g.VimuxDebug = true
+        end,
+    },
 }
 
 --------------------------------------------------------------------------------

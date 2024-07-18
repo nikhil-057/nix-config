@@ -115,6 +115,13 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+## Set WORKDIR
+if [ -z "$WORKDIR" ]; then
+    export WORKDIR="$HOME"
+fi
+cd "$WORKDIR"
+
 alias python=python3
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export PATH="$PATH:/opt/nvim"
