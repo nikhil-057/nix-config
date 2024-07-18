@@ -2,14 +2,22 @@
 
 ```
 sudo apt-get update
-sudo apt-get install fd-find --yes
-sudo apt-get install ripgrep --yes
-sudo apt-get install unzip --yes
 
-sudo apt-get install lua5.3 --yes
-sudo apt-get install liblua5.3-dev --yes
-sudo apt-get install python3-pip --yes
-sudo apt-get install python3-venv --yes
+sudo apt-get install \
+    fd-find \
+    ripgrep \
+    unzip \
+    lua5.1 \
+    liblua5.1-dev \
+    python3-pip \
+    python3-venv \
+    libevent-dev \
+	ncurses-dev \
+	build-essential \
+	bison \
+	pkg-config \
+	--yes
+
 pip3 install --user --break-system-packages --upgrade pynvim
 
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
