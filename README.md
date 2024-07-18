@@ -12,11 +12,11 @@ sudo apt-get install \
     python3-pip \
     python3-venv \
     libevent-dev \
-	ncurses-dev \
-	build-essential \
-	bison \
-	pkg-config \
-	--yes
+    ncurses-dev \
+    build-essential \
+    bison \
+    pkg-config \
+    --yes
 
 pip3 install --user --break-system-packages --upgrade pynvim
 
