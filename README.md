@@ -1,7 +1,7 @@
 ## Nvim setup
 
 ```
-## cd into the git repo before running the below
+## cd into git repo before running the below
 REPO_DIR=$PWD
 
 ## install packages
@@ -30,7 +30,7 @@ fi
 ## tmux
 mkdir -p $WORKDIR/install/tmux && cd $WORKDIR/install/tmux
 wget -qO tmux-3.3a.tar.gz https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz
-tar -zxpf tmux-*.tar.gz
+rm -rf tmux-*/ && tar -zxpf tmux-*.tar.gz
 cd tmux-*/
 ./configure && make && sudo make install
 
@@ -46,9 +46,10 @@ npm install -g tree-sitter-cli
 ## luarocks
 mkdir -p $WORKDIR/install/luarocks && cd $WORKDIR/install/luarocks
 wget -qO luarocks-3.11.1.tar.gz https://luarocks.org/releases/luarocks-3.11.1.tar.gz
-tar -zxpf luarocks-*.tar.gz
+rm -rf luarocks-*/ && tar -zxpf luarocks-*.tar.gz
 cd luarocks-*/
-./configure && make && sudo make install
+./configure --lua-version=5.1
+make && sudo make install
 sudo luarocks install luasocket
 
 cd $REPO_DIR
