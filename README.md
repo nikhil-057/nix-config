@@ -4,6 +4,12 @@
 ## cd into git repo before running the below
 REPO_DIR=$PWD
 
+## install zsh
+sudo apt-get install zsh --yes
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+echo $0 ## should return zsh
+
 ## install packages
 sudo apt-get update
 sudo apt-get install \
@@ -60,5 +66,5 @@ sudo luarocks install luasocket
 
 cd $REPO_DIR
 ./setup.sh
-source ~/.bashrc
+source ~/.zshrc
 ```
