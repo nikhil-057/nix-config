@@ -68,7 +68,7 @@ local plugins = {
         },
         opts = {
             ensure_installed = {
-                "pyright", -- LSP for python
+                "basedpyright", -- LSP for python
                 "ruff-lsp", -- linter for python (includes flake8, pep8, etc.)
                 "debugpy", -- debugger
                 "black", -- formatter
@@ -89,18 +89,12 @@ local plugins = {
             { "<leader>c", vim.lsp.buf.code_action, desc = "Code Action" },
         },
         init = function()
-            -- this snippet enables auto-completion
-            local lspCapabilities = vim.lsp.protocol.make_client_capabilities()
-            lspCapabilities.textDocument.completion.completionItem.snippetSupport = true
-
-            -- setup pyright with completion capabilities
-            require("lspconfig").pyright.setup({
-                capabilities = lspCapabilities,
+            -- setup basedpyright
+            require("lspconfig").basedpyright.setup({
             })
 
-            -- setup taplo with completion capabilities
+            -- setup taplo
             require("lspconfig").taplo.setup({
-                capabilities = lspCapabilities,
             })
 
             -- ruff uses an LSP proxy, therefore it needs to be enabled as if it
@@ -113,7 +107,7 @@ local plugins = {
                 settings = {
                     organizeImports = false,
                 },
-                -- disable ruff as hover provider to avoid conflicts with pyright
+                -- disable ruff as hover provider to avoid conflicts with basedpyright
                 on_attach = function(client) client.server_capabilities.hoverProvider = false end,
             })
         end,
@@ -393,4 +387,9 @@ local plugins = {
 --------------------------------------------------------------------------------
 
 -- tell lazy.nvim to load and configure all the plugins
-require("lazy").setup(plugins)
+require("lazy").setup({
+    spec = plugins,
+    rocks = {
+        enabled = false,
+    },
+})
