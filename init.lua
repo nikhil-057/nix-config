@@ -11,6 +11,11 @@ vim.opt_local.expandtab = true
 vim.opt_local.tabstop = 8
 vim.opt_local.softtabstop = 0
 
+-- remove \r after pasting from clipboard
+-- https://neovim.io/doc/user/api.html#nvim_set_keymap()
+vim.api.nvim_set_keymap("n", "\"+p", ("\"+p<cmd>%s/\\r//g<cr>"), {})
+vim.api.nvim_set_keymap("n", "\"+P", ("\"+P<cmd>%s/\\r//g<cr>"), {})
+
 -- BOOTSTRAP the plugin manager `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
