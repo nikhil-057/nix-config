@@ -1,2 +1,5 @@
+# https://unix.stackexchange.com/questions/412065/ssh-connection-x11-connection-rejected-because-of-wrong-authentication
+export XAUTHORITY="$HOME/.Xauthority"
+# https://askubuntu.com/questions/538526/is-home-local-share-the-default-value-for-xdg-data-home
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 alias vim=nvim
