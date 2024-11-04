@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-ln -rsfv config ~/.config/home-manager
+rm -rf ~/.config/home-manager && ln -rsfv . ~/.config/home-manager
 
 ## TODO: move these into home.nix
 #mkdir -p ~/.config/nvim
