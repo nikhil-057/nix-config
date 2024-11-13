@@ -40,7 +40,7 @@
     pkgs.xorg.xauth
     pkgs.ripgrep
     pkgs.fd
-    pkgs.docker
+    pkgs.podman
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -59,6 +59,8 @@
     ".tmux.conf".source = dotfiles/tmux.conf;
     ".profile".source = dotfiles/profile;
     ".zshrc".source = dotfiles/zshrc;
+    # https://man.archlinux.org/man/containers-policy.json.5.en
+    ".config/containers/policy.json".source = dotfiles/containers-policy.json;
   };
 
   # Home Manager can also manage your environment variables through
