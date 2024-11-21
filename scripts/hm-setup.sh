@@ -2,10 +2,10 @@
 set -euo pipefail
 CWD="$(pwd)"
 trap "cd $CWD" EXIT
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 mkdir -p ~/.config
 rm -rf ~/.config/home-manager
-ln -rsfv . ~/.config/home-manager
+ln -rsfv home-manager ~/.config/home-manager
 home-manager switch
 
 ## need the following because podman does not play nicely with newuidmap
