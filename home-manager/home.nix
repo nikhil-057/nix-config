@@ -40,6 +40,7 @@
     pkgs.xorg.xauth
     pkgs.ripgrep
     pkgs.fd
+    pkgs.jq
     pkgs.podman
   ];
 
