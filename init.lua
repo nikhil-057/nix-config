@@ -384,6 +384,10 @@ local plugins = {
             { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
             { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
         },
+        init = function()
+            -- write all buffers before navigating from vim to tmux pane
+            vim.g.tmux_navigator_save_on_switch = 2
+        end,
     },
 }
 
