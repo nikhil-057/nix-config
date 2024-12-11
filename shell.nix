@@ -23,14 +23,14 @@ in with pkgs; {
       "echo ${nixPath};" +
       "exit";
   };
-  hmSetup = stdenv.mkDerivation {
-    name = "hm-setup";
+  setupHomeManager = stdenv.mkDerivation {
+    name = "setup-home-manager";
     buildInputs = [
       nix
     ];
     shellHook =
       "export NIX_PATH=${nixPath};" +
-      "${configDir}/scripts/hm-setup.sh;" +
+      "${configDir}/scripts/hm-shell-hook.sh;" +
       "exit";
   };
 }
