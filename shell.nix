@@ -5,7 +5,7 @@ let
 configDir =
   builtins.substring
     0
-    (builtins.sub (builtins.stringLength __curPos.file) 12)
+    (builtins.sub (builtins.stringLength __curPos.file) 10)
     __curPos.file;
 sources = import (configDir + "/npins");
 pkgs = import sources.nixpkgs {
