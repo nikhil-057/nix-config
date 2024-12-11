@@ -27,7 +27,6 @@
   #     echo "Hello, ${config.home.username}!"
   #   '')
   home.packages = [
-    pkgs.hello
     pkgs.git
     pkgs.neovim
     pkgs.tmux
