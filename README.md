@@ -28,6 +28,7 @@ if [ -z "$WORKDIR" ]; then
 fi
 
 ## nvim
+mkdir -p $WORKDIR/install/nvim && cd $WORKDIR/install/nvim
 wget -qO nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 sudo rm -rf /opt/nvim*/
 sudo tar -C /opt -zxpf nvim-linux64.tar.gz
