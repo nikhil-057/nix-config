@@ -28,6 +28,7 @@
   #   '')
   home.packages = [
     pkgs.git
+    pkgs.npins
     pkgs.neovim
     pkgs.tmux
     pkgs.zsh
