@@ -2,12 +2,7 @@
   system ? builtins.currentSystem,
 }:
 let
-  configDir =
-    builtins.substring
-      0
-      (builtins.sub (builtins.stringLength __curPos.file) 10)
-      __curPos.file;
-  sources = import (configDir + "/npins");
+  sources = import ./npins;
   nixPath =
     ":nixpkgs=" + sources.nixpkgs +
     ":home-manager=" + sources.home-manager;
@@ -15,6 +10,10 @@ let
     inherit system;
     config = {};
     overlays = [];
+  };
+  hmDir = pkgs.lib.fileset.toSource {
+    root = ./home-manager;
+    fileset = ./home-manager/.;
   };
 in with pkgs; {
   echoNixPath = stdenv.mkDerivation {
@@ -30,7 +29,7 @@ in with pkgs; {
     ];
     shellHook =
       "export NIX_PATH=${nixPath};" +
-      "${configDir}/scripts/hm-shell-hook.sh;" +
+      "${hmDir}/setup-hook.sh;" +
       "exit";
   };
 }
