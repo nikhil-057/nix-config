@@ -26,7 +26,6 @@ sudo apt-get install \
     bison \
     pkg-config \
     --yes
-pip3 install --user --break-system-packages --upgrade pynvim
 
 ## set workdir
 if [ -z "$WORKDIR" ]; then
