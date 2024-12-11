@@ -83,6 +83,15 @@
     # EDITOR = "emacs";
   };
 
+  # git config
+  programs.git.enable = true;
+  programs.git.includes = [{
+    contents = {
+      user.email="asdfasdf5790@gmail.com";
+      user.name="nikhil";
+    };
+  }];
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
