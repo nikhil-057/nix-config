@@ -1,12 +1,8 @@
 {
-  pkgs ? import <nixpkgs> { },
-  hmAttrs ? import <home-manager> { }
+  hmInstall ? (import <home-manager> { }).install
 }:
-let
-  home-manager = hmAttrs.home-manager;
-in
-  hmAttrs.install.override {
-    shellHook = ''
-      exec ${home-manager}/bin/home-manager init --switch --no-flake -b backup
-    '';
-  }
+hmInstall.override {
+  shellHook = ''
+    exec home-manager init --switch --no-flake -b backup
+  '';
+}
