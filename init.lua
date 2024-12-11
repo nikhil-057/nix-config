@@ -1,4 +1,8 @@
+--------------------------------------------------------------------------------
+-- Inspired by https://github.com/chrisgrieser/nvim-kickstart-python/blob/main/kickstart-python.lua
+
 vim.opt.clipboard = "unnamedplus"
+vim.opt.number = true
 
 -- BOOTSTRAP the plugin manager `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
