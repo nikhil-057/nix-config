@@ -17,9 +17,21 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+
+    pkgs.hello
+    pkgs.git
+    pkgs.neovim
+    pkgs.tmux
+    pkgs.zsh
+    pkgs.oh-my-zsh
+    pkgs.gcc
+    pkgs.python3
+    pkgs.uv
+    pkgs.xclip
+    pkgs.xorg.xauth
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.docker
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -48,6 +60,11 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
+    ".config/nvim/init.lua".source = dotfiles/init.lua;
+    ".tmux.conf".source = dotfiles/tmux.conf;
+    ".profile".source = dotfiles/profile;
+    ".zshrc".source = dotfiles/zshrc;
   };
 
   # Home Manager can also manage your environment variables through
