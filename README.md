@@ -1,4 +1,4 @@
-## Nvim setup
+## ubuntu/debian setup
 
 ```
 ## cd into git repo before running the below
@@ -26,6 +26,11 @@ pip3 install --user --break-system-packages --upgrade pynvim
 if [ -z "$WORKDIR" ]; then
     export WORKDIR="$HOME"
 fi
+
+## nvim
+wget -qO nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim*/
+sudo tar -C /opt -zxpf nvim-linux64.tar.gz
 
 ## tmux
 mkdir -p $WORKDIR/install/tmux && cd $WORKDIR/install/tmux
