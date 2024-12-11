@@ -4,13 +4,13 @@
       "type": "Git",
       "repository": {
         "type": "GitHub",
-        "owner": "nix-community",
+        "owner": "nikhil-057",
         "repo": "home-manager"
       },
-      "branch": "master",
-      "revision": "873e39d5f4437d2f3ab06881fea8e63e45e1d011",
-      "url": "https://github.com/nix-community/home-manager/archive/873e39d5f4437d2f3ab06881fea8e63e45e1d011.tar.gz",
-      "hash": "0lb3gh4vaicagim7f0w4zz2lfzf87j1rxd5ggbw8m90zs2pk8kl1"
+      "branch": "customizable-shellhook",
+      "revision": "3e8c6e9108cdc3226dce244916d4d0e3679b21a2",
+      "url": "https://github.com/nikhil-057/home-manager/archive/3e8c6e9108cdc3226dce244916d4d0e3679b21a2.tar.gz",
+      "hash": "0an3j2ajgbwxb92sniyxh7s6dsh6gm4r6mi9pv435f71w7kkg6m6"
     },
     "nixpkgs": {
       "type": "Git",
