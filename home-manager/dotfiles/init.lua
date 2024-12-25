@@ -25,24 +25,6 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 --------------------------------------------------------------------------------
--- BASIC PYTHON-RELATED OPTIONS
-
--- The filetype-autocmd runs a function when opening a file with the filetype
--- "python". This method allows you to make filetype-specific configurations. In
--- there, you have to use `opt_local` instead of `opt` to limit the changes to
--- just that buffer. (As an alternative to using an autocmd, you can also put those
--- configurations into a file `/after/ftplugin/{filetype}.lua` in your
--- nvim-directory.)
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "python", -- filetype for which to run the autocmd
-    callback = function()
-        -- folds based on indentation https://neovim.io/doc/user/fold.html#fold-indent
-        -- if you are a heavy user of folds, consider using `nvim-ufo`
-        vim.opt_local.foldmethod = "indent"
-    end,
-})
-
---------------------------------------------------------------------------------
 
 local plugins = {
     -- TOOLING: COMPLETION, DIAGNOSTICS, FORMATTING
@@ -83,41 +65,6 @@ local plugins = {
         },
     },
 
-    -- Setup the LSPs
-    -- `gd` and `gr` for goto definition / references
-    -- `<leader>c` for code actions (organize imports, etc.)
-    {
-        "neovim/nvim-lspconfig",
-        keys = {
-            { "gd", vim.lsp.buf.definition, desc = "Goto Definition" },
-            { "gr", vim.lsp.buf.references, desc = "Goto References" },
-            { "<leader>c", vim.lsp.buf.code_action, desc = "Code Action" },
-        },
-        init = function()
-            -- setup basedpyright
-            require("lspconfig").basedpyright.setup({
-            })
-
-            -- setup taplo
-            require("lspconfig").taplo.setup({
-            })
-
-            -- ruff uses an LSP proxy, therefore it needs to be enabled as if it
-            -- were a LSP. In practice, ruff only provides linter-like diagnostics
-            -- and some code actions, and is not a full LSP yet.
-            require("lspconfig").ruff_lsp.setup({
-                -- organize imports disabled, since we are already using `isort` for that
-                -- alternative, this can be enabled to make `organize imports`
-                -- available as code action
-                settings = {
-                    organizeImports = false,
-                },
-                -- disable ruff as hover provider to avoid conflicts with basedpyright
-                on_attach = function(client) client.server_capabilities.hoverProvider = false end,
-            })
-        end,
-    },
-
     -- Formatting client: conform.nvim
     -- - configured to use black & isort in python
     -- - use the taplo-LSP for formatting in toml
@@ -149,50 +96,6 @@ local plugins = {
                 lsp_fallback = true,
             },
         },
-    },
-
-    -- Completion via nvim-cmp
-    -- - Confirm a completion with `<CR>` (Return)
-    -- - select an item with `<Tab>`/`<S-Tab>`
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp", -- use suggestions from the LSP
-
-            -- Snippet engine. Required for nvim-cmp to work, even if you don't
-            -- intend to use custom snippets.
-            "L3MON4D3/LuaSnip", -- snippet engine
-            "saadparwaiz1/cmp_luasnip", -- adapter for the snippet engine
-        },
-        config = function()
-            local cmp = require("cmp")
-            cmp.setup({
-                -- tell cmp to use Luasnip as our snippet engine
-                snippet = {
-                    expand = function(args) require("luasnip").lsp_expand(args.body) end,
-                },
-                -- Define the mappings for the completion. The `fallback()` call
-                -- ensures that when there is no suggestion window open, the mapping
-                -- falls back to the default behavior (adding indentation).
-                mappings = cmp.mapping.preset.insert({
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- true = autoselect first entry
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                    ["<S-Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                }),
-            })
-        end,
     },
 
     -----------------------------------------------------------------------------
@@ -228,70 +131,6 @@ local plugins = {
     },
 
     -----------------------------------------------------------------------------
-    -- DEBUGGING
-
-    -- DAP Client for nvim
-    -- - start the debugger with `<leader>dc`
-    -- - add breakpoints with `<leader>db`
-    -- - terminate the debugger `<leader>dt`
-    {
-        "mfussenegger/nvim-dap",
-        keys = {
-            {
-                "<leader>dc",
-                function() require("dap").continue() end,
-                desc = "Start/Continue Debugger",
-            },
-            {
-                "<leader>db",
-                function() require("dap").toggle_breakpoint() end,
-                desc = "Add Breakpoint",
-            },
-            {
-                "<leader>dt",
-                function() require("dap").terminate() end,
-                desc = "Terminate Debugger",
-            },
-        },
-    },
-
-    -- UI for the debugger
-    -- - the debugger UI is also automatically opened when starting/stopping the debugger
-    -- - toggle debugger UI manually with `<leader>du`
-    {
-        "rcarriga/nvim-dap-ui",
-        dependencies = "mfussenegger/nvim-dap",
-        keys = {
-            {
-                "<leader>du",
-                function() require("dapui").toggle() end,
-                desc = "Toggle Debugger UI",
-            },
-        },
-        -- automatically open/close the DAP UI when starting/stopping the debugger
-        config = function()
-            local listener = require("dap").listeners
-            listener.after.event_initialized["dapui_config"] = function() require("dapui").open() end
-            listener.before.event_terminated["dapui_config"] = function() require("dapui").close() end
-            listener.before.event_exited["dapui_config"] = function() require("dapui").close() end
-        end,
-    },
-
-    -- Configuration for the python debugger
-    -- - configures debugpy for us
-    -- - uses the debugpy installation from mason
-    {
-        "mfussenegger/nvim-dap-python",
-        dependencies = "mfussenegger/nvim-dap",
-        config = function()
-            -- uses the debugypy installation by mason
-            local debugpyPythonPath = require("mason-registry").get_package("debugpy"):get_install_path()
-            .. "/venv/bin/python3"
-            require("dap-python").setup(debugpyPythonPath, {})
-        end,
-    },
-
-    -----------------------------------------------------------------------------
     -- EDITING SUPPORT PLUGINS
     -- some plugins that help with python-specific editing operations
 
@@ -315,23 +154,6 @@ local plugins = {
     {
         "chrisgrieser/nvim-puppeteer",
         dependencies = "nvim-treesitter/nvim-treesitter",
-    },
-
-    -- select virtual environments
-    -- - makes pyright and debugpy aware of the selected virtual environment
-    -- - Select a virtual environment with `:VenvSelect`
-    {
-        "linux-cultist/venv-selector.nvim",
-        dependencies = {
-            "neovim/nvim-lspconfig",
-            "nvim-telescope/telescope.nvim",
-            "nvim-lua/plenary.nvim",
-            "mfussenegger/nvim-dap-python",
-        },
-        opts = {
-            dap_enabled = true, -- makes the debugger work with venv
-            stay_on_this_version = true,
-        },
     },
 
     -- navigate seamlessly between vim and tmux splits using a consistent set of hotkeys
