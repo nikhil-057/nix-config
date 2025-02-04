@@ -13,6 +13,14 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      python311Full = prev.python311Full.overrideAttrs (oldAttrs: {
+        buildInputs = (oldAttrs.buildInputs or []) ++ [ prev.pkg-config prev.openssl.dev ];
+      });
+    })
+  ];
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   #
@@ -85,10 +93,12 @@
   #
   #  /etc/profiles/per-user/nikhil/etc/profile.d/hm-session-vars.sh
   #
+
   home.sessionVariables = {
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+    LDFLAGS = "-L${pkgs.openssl.out}/lib";
+    LD_LIBRARY_PATH = "-L${pkgs.openssl.out}/lib";
   };
-
   # git config
   programs.git.enable = true;
   programs.git.includes = [{
