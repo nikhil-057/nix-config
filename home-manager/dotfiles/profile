@@ -4,3 +4,4 @@ export XAUTHORITY="$HOME/.Xauthority"
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 alias vim=nvim
 [[ "$PWD" == *"$HOME"* ]] || cd ~
+source ~/.nix-profile/etc/profile.d/hm-session-vars.sh

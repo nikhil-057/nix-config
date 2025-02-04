@@ -34,7 +34,8 @@
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.gcc
-    pkgs.python3
+    pkgs.python311Full
+    pkgs.python311Packages.pip
     pkgs.uv
     pkgs.xclip
     pkgs.xorg.xauth
@@ -43,9 +44,9 @@
     pkgs.jq
     pkgs.podman
     pkgs.poetry
+    pkgs.curlFull.dev
+    pkgs.openssl.dev
     pkgs.pkg-config
-    pkgs.libGL
-    pkgs.stdenv.cc.cc.lib
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -85,7 +86,7 @@
   #  /etc/profiles/per-user/nikhil/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    LD_LIBRARY_PATH="${pkgs.libGL}/lib/:${pkgs.stdenv.cc.cc.lib}/lib/:${pkgs.glib.out}/lib/";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
 
   # git config
