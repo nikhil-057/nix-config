@@ -90,7 +90,6 @@
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     CFLAGS = "-I${pkgs.openssl.dev}/include";
     LDFLAGS = "-L${pkgs.openssl.out}/lib";
-    LD_LIBRARY_PATH = "${pkgs.openssl.out}/lib";
   };
 
   # git config
