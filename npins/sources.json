@@ -20,9 +20,21 @@
         "repo": "nixpkgs"
       },
       "branch": "nixos-unstable",
-      "revision": "ac35b104800bff9028425fec3b6e8a41de2bbfff",
-      "url": "https://github.com/nixos/nixpkgs/archive/ac35b104800bff9028425fec3b6e8a41de2bbfff.tar.gz",
-      "hash": "1fbj7shlmviilmgz5z2gp59j6xwgdr01jfh75qhixx06kib4305p"
+      "revision": "799ba5bffed04ced7067a91798353d360788b30d",
+      "url": "https://github.com/nixos/nixpkgs/archive/799ba5bffed04ced7067a91798353d360788b30d.tar.gz",
+      "hash": "15b3bqrmr98y5yhm1jrzw23flpiqzlbrwxaiyyzgd3dwfpwy30m2"
+    },
+    "nixvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "nixvim"
+      },
+      "branch": "main",
+      "revision": "61fdbe26476b031d407e9b873fffe235ff2b8364",
+      "url": "https://github.com/nix-community/nixvim/archive/61fdbe26476b031d407e9b873fffe235ff2b8364.tar.gz",
+      "hash": "0s50r959mrkaxqm1p10ah3bs7gjrgb3bc4v9ywaxajmmahsjwwl2"
     }
   },
   "version": 3
