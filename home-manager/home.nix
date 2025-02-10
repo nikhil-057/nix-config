@@ -34,8 +34,8 @@
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.gcc
-    pkgs.python311Full
-    pkgs.python311Packages.pip
+    pkgs.python312Full
+    pkgs.python312Packages.pip
     pkgs.uv
     pkgs.xclip
     pkgs.xorg.xauth
