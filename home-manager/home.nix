@@ -47,6 +47,8 @@
     pkgs.curlFull.dev
     pkgs.openssl.dev
     pkgs.pkg-config
+    pkgs.nodejs_23
+    pkgs.neo4j
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
