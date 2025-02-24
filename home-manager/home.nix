@@ -50,6 +50,7 @@
     pkgs.pkg-config
     pkgs.nodejs_23
     pkgs.neo4j
+    pkgs.awscli2
     pkgs.groff
   ];
 
