@@ -38,6 +38,7 @@
     pkgs.python312Packages.pip
     pkgs.uv
     pkgs.xclip
+    pkgs.unzip
     pkgs.xorg.xauth
     pkgs.ripgrep
     pkgs.fd
