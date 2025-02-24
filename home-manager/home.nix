@@ -50,6 +50,7 @@
     pkgs.pkg-config
     pkgs.nodejs_23
     pkgs.neo4j
+    pkgs.groff
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
