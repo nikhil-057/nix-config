@@ -1,5 +1,5 @@
 #### Bootstrapping home-manager
-`NIX_BUILD_SHELL=bash nix-shell --pure -A setupHomeManager https://github.com/nikhil-057/nix-config/archive/refs/tags/v7.8.tar.gz`
+`"$(nix-build --quiet --no-out-link -A setupHomeManager https://github.com/nikhil-057/nix-config/archive/refs/tags/v8.0.tar.gz)/bin/setup-home-manager"`
 
-#### Setting NIX_PATH
-`export NIX_PATH="$(NIX_BUILD_SHELL=bash nix-shell --pure -A echoNixPath https://github.com/nikhil-057/nix-config/archive/refs/tags/v7.8.tar.gz)"`
+#### Using nix-shell
+`NIX_PATH="$("$(nix-build --quiet --no-out-link -A echoNixPath https://github.com/nikhil-057/nix-config/archive/refs/tags/v8.0.tar.gz)/bin/echo-nix-path")" nix-shell -p hello --run hello`
