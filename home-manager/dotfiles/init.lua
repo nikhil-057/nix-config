@@ -42,7 +42,11 @@ local plugins = {
         lazy = false,
         priority = 1000,
         -- enable the colorscheme
-        config = function() vim.cmd.colorscheme("tokyonight") end,
+        config = function()
+            vim.cmd.colorscheme("tokyonight")
+            -- Disable 'Special' red highlight
+            vim.api.nvim_set_hl(0, "Special", { link = "Normal" })
+        end,
     },
 
     -- Manager for external tools (LSPs, linters, debuggers, formatters)
