@@ -2,6 +2,7 @@
 -- Inspired by https://github.com/chrisgrieser/nvim-kickstart-python/blob/main/kickstart-python.lua
 
 vim.opt.clipboard = "unnamedplus"
+vim.opt.termguicolors = true
 vim.opt.number = true
 
 -- https://stackoverflow.com/questions/1878974/redefine-tab-as-4-spaces
@@ -38,14 +39,24 @@ local plugins = {
     -- https://dotfyle.com/neovim/colorscheme/top
     {
         "folke/tokyonight.nvim",
-        -- ensure that the color scheme is loaded at the very beginning
         lazy = false,
         priority = 1000,
-        -- enable the colorscheme
         config = function()
+            require("tokyonight").setup({
+                style = "moon", -- or "night", "storm", "day"
+                transparent = false,
+                styles = {
+                    comments = { italic = false },
+                    keywords = { italic = false },
+                    functions = {},
+                    variables = {},
+                },
+                on_highlights = function(hl, c)
+                    -- Override 'Special' group to match 'Normal' to disable red highlighting
+                    hl.Special = { fg = c.fg, bg = c.bg }
+                end,
+            })
             vim.cmd.colorscheme("tokyonight")
-            -- Disable 'Special' red highlight
-            vim.api.nvim_set_hl(0, "Special", { link = "Normal" })
         end,
     },
 
