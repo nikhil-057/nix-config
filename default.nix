@@ -25,4 +25,3 @@ in with pkgs; {
     ${hmDir}/setup-hook.sh
   '';
 }
-
