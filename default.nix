@@ -16,20 +16,13 @@ let
     fileset = ./home-manager/.;
   };
 in with pkgs; {
-  echoNixPath = stdenv.mkDerivation {
-    name = "echo-nix-path";
-    shellHook =
-      "echo ${nixPath};" +
-      "exit";
-  };
-  setupHomeManager = stdenv.mkDerivation {
-    name = "setup-home-manager";
-    buildInputs = [
-      nix
-    ];
-    shellHook =
-      "export NIX_PATH=${nixPath};" +
-      "${hmDir}/setup-hook.sh;" +
-      "exit";
-  };
+  echoNixPath = writeShellScriptBin "echo-nix-path" ''
+    echo "${nixPath}"
+  '';
+  setupHomeManager = writeShellScriptBin "setup-home-manager" ''
+    export PATH="${lib.makeBinPath [ bash coreutils nix ]}"
+    export NIX_PATH="${nixPath}"
+    ${hmDir}/setup-hook.sh
+  '';
 }
+
