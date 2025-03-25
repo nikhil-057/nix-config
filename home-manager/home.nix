@@ -34,8 +34,6 @@
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.gcc
-    pkgs.python312Full
-    pkgs.python312Packages.pip
     pkgs.uv
     pkgs.xclip
     pkgs.unzip
@@ -48,10 +46,12 @@
     pkgs.curlFull.dev
     pkgs.openssl.dev
     pkgs.pkg-config
-    pkgs.nodejs_23
     pkgs.neo4j
     pkgs.awscli2
     pkgs.groff
+    pkgs.python312Full
+    pkgs.python312Packages.pip
+    pkgs.nodejs_22
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -99,13 +99,15 @@
   };
 
   # git config
-  programs.git.enable = true;
-  programs.git.includes = [{
-    contents = {
-      user.name="nikhil";
-      user.email="<>";
-    };
-  }];
+  programs.git = {
+    enable = true;
+    includes = [{
+      contents = {
+        user.name="nikhil";
+        user.email="<>";
+      };
+    }];
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
