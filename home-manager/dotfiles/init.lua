@@ -117,7 +117,7 @@ local plugins = {
     -- EDITING SUPPORT PLUGINS
     -- some plugins that help with python-specific editing operations
 
-    -- Docstring creation
+    -- Support for docstring creation
     -- - quickly create docstrings via `<leader>a`
     {
         "danymat/neogen",
@@ -131,12 +131,23 @@ local plugins = {
         },
     },
 
-    -- f-strings
+    -- Support for f-strings
     -- - auto-convert strings to f-strings when typing `{}` in a string
     -- - also auto-converts f-strings back to regular strings when removing `{}`
     {
         "chrisgrieser/nvim-puppeteer",
         dependencies = "nvim-treesitter/nvim-treesitter",
+    },
+
+    -- Support for comments
+    -- - Visual mode: select the lines and press gc to toggle comments.
+    -- - Normal mode: gcc to comment a line; gcip to comment a paragraph.
+    {
+      "numToStr/Comment.nvim",
+      lazy = false,
+      config = function()
+          require("Comment").setup()
+      end
     },
 
     -- navigate seamlessly between vim and tmux splits using a consistent set of hotkeys
