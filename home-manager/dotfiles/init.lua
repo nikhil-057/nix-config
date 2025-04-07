@@ -184,13 +184,9 @@ local plugins = {
             { "<leader>vx", "<cmd>VimuxInterruptRunner<cr>", mode = "" },
             { "<leader>vz", "<cmd>call VimuxZoomRunner()<cr>", mode = "" },
             { "<leader>v<C-l>", "<cmd>VimuxClearTerminalScreen<cr>", mode = "" },
-            { "<leader>vs", "\"vy<cmd>call VimuxRunCommand(@v, 0)<cr>", mode = "v" },
-            { "<leader>vs", "vip\"vy<cmd>call VimuxRunCommand(@v, 0)<cr>", mode = "n" },
+            { "<leader>vs", "\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "v" },
+            { "<leader>vs", "vip\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "n" },
         },
-        init = function()
-            vim.g.VimuxHeight = 30
-            vim.g.VimuxDebug = true
-        end,
     },
 }
 
