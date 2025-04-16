@@ -131,14 +131,6 @@ local plugins = {
         },
     },
 
-    -- Support for f-strings
-    -- - auto-convert strings to f-strings when typing `{}` in a string
-    -- - also auto-converts f-strings back to regular strings when removing `{}`
-    {
-        "chrisgrieser/nvim-puppeteer",
-        dependencies = "nvim-treesitter/nvim-treesitter",
-    },
-
     -- Support for comments
     -- - Visual mode: select the lines and press gc to toggle comments.
     -- - Normal mode: gcc to comment a line; gcip to comment a paragraph.

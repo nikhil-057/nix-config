@@ -105,6 +105,7 @@
       contents = {
         user.name="nikhil";
         user.email="<>";
+        merge.tool="nvimdiff";
       };
     }];
   };
