@@ -20,9 +20,9 @@
         "repo": "nixpkgs"
       },
       "branch": "nixos-unstable",
-      "revision": "799ba5bffed04ced7067a91798353d360788b30d",
-      "url": "https://github.com/nixos/nixpkgs/archive/799ba5bffed04ced7067a91798353d360788b30d.tar.gz",
-      "hash": "15b3bqrmr98y5yhm1jrzw23flpiqzlbrwxaiyyzgd3dwfpwy30m2"
+      "revision": "292fa7d4f6519c074f0a50394dbbe69859bb6043",
+      "url": "https://github.com/nixos/nixpkgs/archive/292fa7d4f6519c074f0a50394dbbe69859bb6043.tar.gz",
+      "hash": "171wlwhw8sqkc6p1nzhs6rl1c4zhvlv2w4xrdp7h7sj9v6g9k8qr"
     },
     "nixvim": {
       "type": "Git",
@@ -32,9 +32,9 @@
         "repo": "nixvim"
       },
       "branch": "main",
-      "revision": "61fdbe26476b031d407e9b873fffe235ff2b8364",
-      "url": "https://github.com/nix-community/nixvim/archive/61fdbe26476b031d407e9b873fffe235ff2b8364.tar.gz",
-      "hash": "0s50r959mrkaxqm1p10ah3bs7gjrgb3bc4v9ywaxajmmahsjwwl2"
+      "revision": "14c7f5f8968940d1730b5e935dd1d9f3e461a2d3",
+      "url": "https://github.com/nix-community/nixvim/archive/14c7f5f8968940d1730b5e935dd1d9f3e461a2d3.tar.gz",
+      "hash": "0ahi0k82cfk77612w6wcrlm5w93sx0lq0482sikpmbv7i7zksar6"
     }
   },
   "version": 3

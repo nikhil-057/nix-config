@@ -3,7 +3,7 @@ set -euo pipefail
 CWD="$(pwd)"
 trap "cd $CWD" EXIT
 cd "$(dirname "$0")/.."
-export NIX_PATH="$(NIX_BUILD_SHELL=bash nix-shell --pure -A echoNixPath)"
+export NIX_PATH="$("$(nix-build --quiet --no-out-link -A echoNixPath)/bin/echo-nix-path")"
 nix-shell -p npins --run " \
   npins init --bare; \
   npins add github nixos nixpkgs --branch nixos-unstable; \

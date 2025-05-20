@@ -49,8 +49,8 @@
     pkgs.neo4j
     pkgs.awscli2
     pkgs.groff
-    pkgs.python312Full
-    pkgs.python312Packages.pip
+    pkgs.python311Full
+    pkgs.python311Packages.pip
     pkgs.nodejs_22
   ];
 
