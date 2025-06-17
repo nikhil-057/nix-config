@@ -52,6 +52,8 @@
     pkgs.python311Full
     pkgs.python311Packages.pip
     pkgs.nodejs_22
+    pkgs.sonarlint-ls
+    pkgs.vimPlugins.sonarlint-nvim
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -96,6 +98,7 @@
     CFLAGS = "-I${pkgs.openssl.dev}/include";
     LDFLAGS = "-L${pkgs.openssl.out}/lib";
     LD_LIBRARY_PATH = "${pkgs.gcc.cc.lib}/lib";
+    SONARLINT_PLUGINS = "${pkgs.sonarlint-ls}/share/plugins";
   };
 
   # git config

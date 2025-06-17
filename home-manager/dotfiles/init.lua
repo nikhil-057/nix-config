@@ -11,6 +11,7 @@ vim.opt_local.smarttab = true
 vim.opt_local.expandtab = true
 vim.opt_local.tabstop = 8
 vim.opt_local.softtabstop = 0
+vim.lsp.set_log_level("debug")
 
 -- remove \r after pasting from clipboard
 -- https://neovim.io/doc/user/api.html#nvim_set_keymap()
@@ -135,11 +136,11 @@ local plugins = {
     -- - Visual mode: select the lines and press gc to toggle comments.
     -- - Normal mode: gcc to comment a line; gcip to comment a paragraph.
     {
-      "numToStr/Comment.nvim",
-      lazy = false,
-      config = function()
-          require("Comment").setup()
-      end
+        "numToStr/Comment.nvim",
+        lazy = false,
+        config = function()
+            require("Comment").setup()
+        end
     },
 
     -- navigate seamlessly between vim and tmux splits using a consistent set of hotkeys
@@ -190,6 +191,40 @@ local plugins = {
             { "<leader>vs", "\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "v" },
             { "<leader>vs", "vip\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "n" },
         },
+    },
+
+    -- enable sonarlint for python
+    {
+        "schrieveslaach/sonarlint.nvim",
+        url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
+        ft = { "python", },
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "mfussenegger/nvim-jdtls",
+            "williamboman/mason.nvim",
+        },
+        config = function()
+            require("sonarlint").setup({
+                server = {
+                    cmd = {
+                        "sonarlint-ls",
+                        "-stdio",
+                        "-analyzers",
+                        vim.fn.getenv("SONARLINT_PLUGINS") .. "/sonarpython.jar",
+                    },
+                    settings = {
+                        sonarlint = {
+                            rules = {
+                                ["python:S1481"] = { level = "on" },
+                                ["python:S1523"] = { level = "on" },
+                            },
+                        },
+                    },
+                },
+                filetypes = { "python", },
+            })
+        end,
+        lazy = false,
     },
 }
 
