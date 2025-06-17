@@ -42,6 +42,7 @@
     pkgs.fd
     pkgs.jq
     pkgs.podman
+    pkgs.docker-client
     pkgs.poetry
     pkgs.curlFull.dev
     pkgs.openssl.dev
