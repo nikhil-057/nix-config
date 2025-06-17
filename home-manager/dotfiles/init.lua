@@ -11,7 +11,7 @@ vim.opt_local.smarttab = true
 vim.opt_local.expandtab = true
 vim.opt_local.tabstop = 8
 vim.opt_local.softtabstop = 0
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 -- remove \r after pasting from clipboard
 -- https://neovim.io/doc/user/api.html#nvim_set_keymap()
@@ -220,6 +220,13 @@ local plugins = {
                             },
                         },
                     },
+                    on_attach = function(_, bufnr)
+                        local opts = { noremap = true, silent = true, buffer = bufnr }
+                        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+                        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+                        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+                        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+                    end
                 },
                 filetypes = { "python", },
             })
