@@ -56,6 +56,7 @@
     pkgs.sonarlint-ls
     pkgs.vimPlugins.sonarlint-nvim
     pkgs.mysql84
+    pkgs.coreutils
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
