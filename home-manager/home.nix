@@ -30,34 +30,46 @@
     pkgs.glibc
     pkgs.gnused
     pkgs.npins
-    pkgs.neovim
     pkgs.tmux
+    pkgs.neovim
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.gcc
-    pkgs.uv
-    pkgs.xclip
+    pkgs.gnumake
+    pkgs.cmake
     pkgs.unzip
-    pkgs.xorg.xauth
+    pkgs.xauth
     pkgs.ripgrep
     pkgs.fd
     pkgs.jq
-    pkgs.podman
+    pkgs.procps
     pkgs.docker-client
-    pkgs.poetry
     pkgs.curlFull.dev
     pkgs.openssl.dev
+    pkgs.openssh
     pkgs.pkg-config
     pkgs.neo4j
     pkgs.awscli2
     pkgs.groff
-    pkgs.python311Full
-    pkgs.python311Packages.pip
-    pkgs.nodejs_22
-    pkgs.sonarlint-ls
-    pkgs.vimPlugins.sonarlint-nvim
+    pkgs.wget
     pkgs.mysql84
     pkgs.coreutils
+    pkgs.tree-sitter
+    pkgs.nodejs_22
+    pkgs.jdk17
+    pkgs.python311
+    pkgs.poetry
+    pkgs.uv
+    pkgs.sonarlint-ls
+    pkgs.vimPlugins.sonarlint-nvim
+    pkgs.basedpyright
+    pkgs.ruff
+    pkgs.black
+    pkgs.isort
+    pkgs.taplo
+    pkgs.typescript
+    pkgs.typescript-language-server
+    pkgs.opencode
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -98,12 +110,25 @@
   #
 
   home.sessionVariables = {
+    # OpenSSL build flags
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     CFLAGS = "-I${pkgs.openssl.dev}/include";
     LDFLAGS = "-L${pkgs.openssl.out}/lib";
     LD_LIBRARY_PATH = "${pkgs.gcc.cc.lib}/lib";
+    # SonarLint plugins path
     SONARLINT_PLUGINS = "${pkgs.sonarlint-ls}/share/plugins";
   };
+
+  # aws config
+  home.file.".profile.d/aws-config.sh".text = ''
+    if [ -f "$HOME/.aws/credentials.json" ]; then
+      CREDS=$(cat "$HOME/.aws/credentials.json")
+      export AWS_ACCESS_KEY_ID=$(echo "$CREDS" | jq -r ".AccessKeyId")
+      export AWS_SECRET_ACCESS_KEY=$(echo "$CREDS" | jq -r ".SecretAccessKey")
+      export AWS_SESSION_TOKEN=$(echo "$CREDS" | jq -r ".SessionToken")
+      export AWS_DEFAULT_REGION="us-west-2";
+    fi
+  '';
 
   # git config
   programs.git = {
@@ -112,9 +137,47 @@
       contents = {
         user.name="nikhil";
         user.email="<>";
-        merge.tool="nvimdiff";
+        core.editor = "nvim";
+        merge.tool = "nvim";
+        mergetool.nvim.cmd = "nvim -d $LOCAL $BASE $REMOTE $MERGED";
+        safe.directory = [
+          "*"
+        ];
       };
     }];
+  };
+
+  # ssh config
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks = {
+      "*" = {
+        hashKnownHosts = true;
+        serverAliveInterval = 0;
+        serverAliveCountMax = 3;
+        controlMaster = "auto";
+        controlPersist = "10m";
+      };
+      "git.blackhawknetwork.com" = {
+        userKnownHostsFile = "/dev/null";
+        extraOptions = {
+          StrictHostKeyChecking = "no";
+        };
+      };
+    };
+  };
+
+  # poetry config
+  xdg.configFile."pypoetry/config.toml".text = ''
+    [virtualenvs]
+    in-project = true
+  '';
+
+  # opencode config
+  xdg.configFile."opencode/opencode.json".text = builtins.toJSON {
+    "$schema" = "https://opencode.ai/config.json";
+    model = "bedrock/anthropic.claude-sonnet-4-5-20250929-v1:0";
   };
 
   # Let Home Manager install and manage itself.
