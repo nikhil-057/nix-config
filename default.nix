@@ -16,9 +16,6 @@ let
     fileset = ./home-manager/.;
   };
 in with pkgs; {
-  echoNixPath = writeShellScriptBin "echo-nix-path" ''
-    echo "${nixPath}"
-  '';
   setupHomeManager = writeShellScriptBin "setup-home-manager" ''
     export PATH="${lib.makeBinPath [ bash coreutils nix ]}"
     export NIX_PATH="${nixPath}"

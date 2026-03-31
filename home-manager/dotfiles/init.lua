@@ -61,57 +61,47 @@ local plugins = {
         end,
     },
 
-    -- Manager for external tools (LSPs, linters, debuggers, formatters)
-    -- auto-install of those external tools
-    {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        dependencies = {
-            { "williamboman/mason.nvim", opts = true },
-            { "williamboman/mason-lspconfig.nvim", opts = true },
-        },
-        opts = {
-            ensure_installed = {
-                "basedpyright", -- LSP for python
-                "ruff-lsp", -- linter for python (includes flake8, pep8, etc.)
-                "debugpy", -- debugger
-                "black", -- formatter
-                "isort", -- organize imports
-                "taplo", -- LSP for toml (for pyproject.toml files)
-            },
-        },
-    },
-
     -----------------------------------------------------------------------------
     -- SYNTAX HIGHLIGHTING & COLORSCHEME
 
     -- treesitter for syntax highlighting
-    -- - auto-installs the parser for python
+    -- - auto-installs required parsers
     {
         "nvim-treesitter/nvim-treesitter",
-        -- automatically update the parsers with every new release of treesitter
+        lazy = false,
         build = ":TSUpdate",
-
-        -- since treesitter's setup call is `require("nvim-treesitter.configs").setup`,
-        -- instead of `require("nvim-treesitter").setup` like other plugins do, we
-        -- need to tell lazy.nvim which module to via the `main` key
-        main = "nvim-treesitter.configs",
-
-        opts = {
-            highlight = { enable = true }, -- enable treesitter syntax highlighting
-            indent = { enable = true }, -- better indentation behavior
-            ensure_installed = {
-                -- auto-install the Treesitter parser for required languages
-                "python",
-                "toml",
-                "rst",
-                "ninja",
-                "markdown",
-                "markdown_inline",
-                "vimdoc",
-                "bash",
-                "nix",
-            },
-        },
+        config = function()
+            require("nvim-treesitter.config").setup({
+                -- enable syntax highlighting
+                highlight = { enable = true },
+                -- enable automatic indentation
+                indent = { enable = true },
+                -- automatically install missing parsers when entering buffer
+                auto_install = true,
+                -- list of parsers to always ensure are installed
+                ensure_installed = {
+                    "python",
+                    "toml",
+                    "rst",
+                    "ninja",
+                    "markdown",
+                    "markdown_inline",
+                    "vimdoc",
+                    "bash",
+                    "nix",
+                    "lua",
+                    "javascript",
+                    "typescript",
+                    "tsx",
+                    "java",
+                    "dockerfile",
+                    "json",
+                    "yaml",
+                    "regex",
+                    "gitignore",
+                },
+            })
+        end,
     },
 
     -----------------------------------------------------------------------------
@@ -169,6 +159,9 @@ local plugins = {
     -- easily interact with tmux from vim
     {
         "preservim/vimux",
+        init = function()
+            vim.g.VimuxRunnerQuery = { pane = "{right-of}" }
+        end,
         cmd = {
             "VimuxPromptCommand",
             "VimuxRunLastCommand",
@@ -191,6 +184,57 @@ local plugins = {
             { "<leader>vs", "\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "v" },
             { "<leader>vs", "vip\"vy<cmd>call VimuxRunCommand(@v)<cr>", mode = "n" },
         },
+    },
+
+    -- fuzzy finder for files, text search, etc
+    {
+      "nvim-telescope/telescope.nvim",
+      dependencies = { "nvim-lua/plenary.nvim" }
+    },
+
+    -- nvim-cmp: completion engine providing autocomplete suggestions
+    {
+      "hrsh7th/nvim-cmp",
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+      },
+      config = function()
+        local cmp = require("cmp")
+        cmp.setup({
+          completion = {
+            autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+          },
+          mapping = cmp.mapping.preset.insert({
+            ["<C-Space>"] = cmp.mapping.complete(),
+            ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            ["<Tab>"] = cmp.mapping.select_next_item(),
+            ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+          }),
+          sources = {
+            { name = "nvim_lsp" },
+            { name = "buffer" },
+            { name = "path" },
+          }
+        })
+      end
+    },
+
+    -- side-by-side diff viewer with git revision comparison and merge tool support
+    {
+      "esmuellert/codediff.nvim",
+      dependencies = { "MunifTanjim/nui.nvim" },
+      cmd = "CodeDiff",
+    },
+
+    -- File explorer sidebar for navigating the project directory tree
+    {
+      "nvim-tree/nvim-tree.lua",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      config = function()
+        require("nvim-tree").setup()
+      end
     },
 
     -- enable sonarlint for python
@@ -244,3 +288,65 @@ require("lazy").setup({
         enabled = false,
     },
 })
+
+-- Diff current file against HEAD
+vim.keymap.set("n", "<leader>df", function()
+  vim.cmd("CodeDiff HEAD -- " .. vim.fn.expand("%"))
+end, { desc = "Diff current file vs HEAD" })
+
+-- Diff last commit (HEAD) vs current working tree
+vim.keymap.set("n", "<leader>dr", function()
+  vim.cmd("CodeDiff")
+end, { desc = "Diff HEAD vs working tree" })
+
+-- Diff previous commit vs current commit (HEAD~1 vs HEAD)
+vim.keymap.set("n", "<leader>dc", function()
+  vim.cmd("CodeDiff HEAD~1 HEAD")
+end, { desc = "Diff HEAD~1 vs HEAD" })
+
+-- Toggle the file explorer sidebar
+vim.keymap.set("n", "<leader>e",
+  "<cmd>NvimTreeToggle<CR>",
+  { desc = "File explorer" })
+
+-- LSP navigation: jump to the definition of the symbol under the cursor
+vim.keymap.set("n", "gd",
+  vim.lsp.buf.definition,
+  { desc = "Go to definition" })
+
+-- Project-wide text search using Telescope
+vim.keymap.set("n", "<leader>ff",
+  require("telescope.builtin").find_files,
+  { desc = "Find files by name" })
+vim.keymap.set("n", "<leader>fg",
+  require("telescope.builtin").live_grep,
+  { desc = "Live grep: search text inside files" })
+
+-- Extend LSP capabilities so completion works with nvim-cmp
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- Python language server (type checking, navigation, diagnostics)
+vim.lsp.config("basedpyright", {
+  capabilities = capabilities,
+})
+
+-- TypeScript / JavaScript / TSX language server
+vim.lsp.config("tsserver", {
+  cmd = { "typescript-language-server", "--stdio" },
+  capabilities = capabilities,
+})
+
+-- Ruff linter server for Python (fast diagnostics + formatting)
+-- Hover disabled to avoid conflicts with basedpyright hover
+vim.lsp.config("ruff", {
+  init_options = {
+    settings = {
+      hover = false,
+    },
+  },
+})
+
+-- Activate configured language servers
+vim.lsp.enable("basedpyright")
+vim.lsp.enable("tsserver")
+vim.lsp.enable("ruff")

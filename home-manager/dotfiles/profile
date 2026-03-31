@@ -2,7 +2,10 @@
 export XAUTHORITY="$HOME/.Xauthority"
 # https://askubuntu.com/questions/538526/is-home-local-share-the-default-value-for-xdg-data-home
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
 alias vim=nvim
 [[ "$PWD" == *"$HOME"* ]] || cd ~
 export __HM_SESS_VARS_SOURCED=
 source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+source ~/.profile.d/aws-config.sh

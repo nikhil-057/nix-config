@@ -8,9 +8,10 @@
         "repo": "home-manager"
       },
       "branch": "customizable-shellhook",
-      "revision": "2ef5a65b38774d616ff54cf0a509c2714f0eb7a9",
-      "url": "https://github.com/nikhil-057/home-manager/archive/2ef5a65b38774d616ff54cf0a509c2714f0eb7a9.tar.gz",
-      "hash": "1p4s1vgzin4mk55w1vj53hzpbc807xxr1f8b78cimipcyfl62yrm"
+      "submodules": false,
+      "revision": "852b4899d45cd9bb5c6b4fabeda64c265a78d3bc",
+      "url": "https://github.com/nikhil-057/home-manager/archive/852b4899d45cd9bb5c6b4fabeda64c265a78d3bc.tar.gz",
+      "hash": "sha256-2qt+VASYyp+8M16v7OgBJcJ1zoyHAEMMBYMKiB/cHLU="
     },
     "nixpkgs": {
       "type": "Git",
@@ -20,9 +21,10 @@
         "repo": "nixpkgs"
       },
       "branch": "nixos-unstable",
-      "revision": "292fa7d4f6519c074f0a50394dbbe69859bb6043",
-      "url": "https://github.com/nixos/nixpkgs/archive/292fa7d4f6519c074f0a50394dbbe69859bb6043.tar.gz",
-      "hash": "171wlwhw8sqkc6p1nzhs6rl1c4zhvlv2w4xrdp7h7sj9v6g9k8qr"
+      "submodules": false,
+      "revision": "fe416aaedd397cacb33a610b33d60ff2b431b127",
+      "url": "https://github.com/nixos/nixpkgs/archive/fe416aaedd397cacb33a610b33d60ff2b431b127.tar.gz",
+      "hash": "sha256-b/GV2ysM8mKHhinse2wz+uP37epUrSE+sAKXy/xvBY4="
     },
     "nixvim": {
       "type": "Git",
@@ -32,10 +34,11 @@
         "repo": "nixvim"
       },
       "branch": "main",
-      "revision": "14c7f5f8968940d1730b5e935dd1d9f3e461a2d3",
-      "url": "https://github.com/nix-community/nixvim/archive/14c7f5f8968940d1730b5e935dd1d9f3e461a2d3.tar.gz",
-      "hash": "0ahi0k82cfk77612w6wcrlm5w93sx0lq0482sikpmbv7i7zksar6"
+      "submodules": false,
+      "revision": "21ae25e13b01d3b4cdc750b5f9e7bad68b150c10",
+      "url": "https://github.com/nix-community/nixvim/archive/21ae25e13b01d3b4cdc750b5f9e7bad68b150c10.tar.gz",
+      "hash": "sha256-3DmCFOdmbkFML1/G9gj8Wb+rCCZFPOQtNoMCpqOF8SA="
     }
   },
-  "version": 3
+  "version": 7
 }
