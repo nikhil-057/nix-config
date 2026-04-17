@@ -9,3 +9,5 @@ alias vim=nvim
 export __HM_SESS_VARS_SOURCED=
 source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 source ~/.profile.d/aws-config.sh
+mkdir -p ~/repos/local_share/opencode ~/.local/share/opencode
+ln -sf ~/repos/local_share/opencode/auth.json ~/.local/share/opencode/auth.json

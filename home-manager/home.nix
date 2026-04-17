@@ -38,6 +38,7 @@
     pkgs.gnumake
     pkgs.cmake
     pkgs.unzip
+    pkgs.zip
     pkgs.xauth
     pkgs.ripgrep
     pkgs.fd

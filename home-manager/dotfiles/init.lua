@@ -18,6 +18,10 @@ vim.opt_local.softtabstop = 0
 vim.api.nvim_set_keymap("n", "\"+p", ("\"+p<cmd>%s/\\r//g<cr>"), {})
 vim.api.nvim_set_keymap("n", "\"+P", ("\"+P<cmd>%s/\\r//g<cr>"), {})
 
+-- Swap jumplist navigation: Ctrl-I goes back, Ctrl-O goes forward
+vim.keymap.set("n", "<C-i>", "<C-o>", { desc = "Jump back in jumplist" })
+vim.keymap.set("n", "<C-o>", "<C-i>", { desc = "Jump forward in jumplist" })
+
 -- BOOTSTRAP the plugin manager `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
@@ -226,6 +230,60 @@ local plugins = {
       "esmuellert/codediff.nvim",
       dependencies = { "MunifTanjim/nui.nvim" },
       cmd = "CodeDiff",
+      config = function()
+        -- Patch explorer auto-refresh to ignore .git/modules/* events.
+        -- Changes inside submodule git dirs fire on the parent repo's .git
+        -- watcher, triggering sync_mutable_buffers with a stale/invalid buffer.
+        local refresh = require("codediff.ui.explorer.refresh")
+        local orig_setup = refresh.setup_auto_refresh
+        refresh.setup_auto_refresh = function(explorer, tabpage)
+          if explorer.git_root then
+            -- Resolve the git dir once so the patch closure can reference it
+            local git = require("codediff.core.git")
+            git.get_git_dir(explorer.git_root, function(err, git_dir)
+              if not err and git_dir then
+                local modules_prefix = git_dir:gsub("/?$", "/") .. "modules"
+                -- Stash so the inner start() call sees the filtered version
+                explorer._codediff_modules_prefix = modules_prefix
+              end
+            end)
+          end
+          local cleanup = orig_setup(explorer, tabpage)
+          return cleanup
+        end
+
+        -- Override uv.new_fs_event to inject the submodule filter.
+        -- uv handles are userdata and don't support field assignment, so we
+        -- return a thin Lua table proxy that wraps start() with a filtered cb.
+        local uv = vim.uv or vim.loop
+        local orig_new_fs_event = uv.new_fs_event
+        uv.new_fs_event = function(...)
+          local handle = orig_new_fs_event(...)
+          if not handle then return handle end
+          -- Build a proxy table that delegates everything to the real handle
+          -- but wraps start() to drop submodule .git events.
+          local proxy = setmetatable({}, {
+            __index = handle,
+            -- uv handles are read-only userdata; store proxy fields in the
+            -- table itself (rawset) rather than forwarding to the handle.
+            __newindex = function(t, k, v) rawset(t, k, v) end,
+          })
+          function proxy:start(path, opts, cb)
+            local effective_cb = cb
+            if type(path) == "string" and path:match("%.git$") then
+              effective_cb = function(watch_err, filename, events)
+                -- Drop events originating from submodule git dirs
+                if not watch_err and filename and filename:match("^modules/") then
+                  return
+                end
+                cb(watch_err, filename, events)
+              end
+            end
+            return handle:start(path, opts, effective_cb)
+          end
+          return proxy
+        end
+      end,
     },
 
     -- File explorer sidebar for navigating the project directory tree
@@ -299,10 +357,12 @@ vim.keymap.set("n", "<leader>dr", function()
   vim.cmd("CodeDiff")
 end, { desc = "Diff HEAD vs working tree" })
 
--- Diff previous commit vs current commit (HEAD~1 vs HEAD)
+-- Diff HEAD~n vs HEAD, where n is the Vim count (default 1).
+-- Examples: <leader>dc → HEAD~1 HEAD, 3<leader>dc → HEAD~3 HEAD
 vim.keymap.set("n", "<leader>dc", function()
-  vim.cmd("CodeDiff HEAD~1 HEAD")
-end, { desc = "Diff HEAD~1 vs HEAD" })
+  local n = vim.v.count1
+  vim.cmd("CodeDiff HEAD~" .. n .. " HEAD")
+end, { desc = "Diff HEAD~[count] vs HEAD (default n=1)" })
 
 -- Toggle the file explorer sidebar
 vim.keymap.set("n", "<leader>e",
@@ -310,9 +370,7 @@ vim.keymap.set("n", "<leader>e",
   { desc = "File explorer" })
 
 -- LSP navigation: jump to the definition of the symbol under the cursor
-vim.keymap.set("n", "gd",
-  vim.lsp.buf.definition,
-  { desc = "Go to definition" })
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 
 -- Project-wide text search using Telescope
 vim.keymap.set("n", "<leader>ff",
