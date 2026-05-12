@@ -206,7 +206,7 @@ git push origin v<X.Y>
 | `<leader>fg` | Live grep (telescope) |
 | `<leader>df` | Diff file vs HEAD (codediff) |
 | `<leader>dr` | Diff HEAD vs working tree (codediff) |
-| `<leader>dc` | Diff HEAD~1 vs HEAD (codediff) |
+| `[n]<leader>dc` | Diff HEAD~n vs HEAD (default n=1) (codediff) |
 | `<leader>vp` | Vimux: prompt command |
 | `<leader>vl` | Vimux: run last command |
 | `<leader>vs` | Vimux: run visual selection or paragraph |
@@ -215,6 +215,8 @@ git push origin v<X.Y>
 | `<leader>vx` | Vimux: interrupt runner |
 | `<leader>vz` | Vimux: zoom runner |
 | `gd` | Go to definition (LSP) |
+| `Ctrl+I` | Jump back in jumplist (e.g. return from `gd`) |
+| `Ctrl+O` | Jump forward in jumplist |
 | `[d` / `]d` | Prev/next diagnostic |
 | `<leader>e` | Open diagnostic float (in Python buffers: SonarLint) |
 | `<leader>q` | Set diagnostic loclist |

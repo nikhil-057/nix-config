@@ -38,6 +38,7 @@
     pkgs.gnumake
     pkgs.cmake
     pkgs.unzip
+    pkgs.zip
     pkgs.xauth
     pkgs.ripgrep
     pkgs.fd
@@ -70,6 +71,7 @@
     pkgs.typescript
     pkgs.typescript-language-server
     pkgs.opencode
+    pkgs.gh
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
